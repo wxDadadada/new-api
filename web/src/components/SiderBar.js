@@ -112,12 +112,6 @@ const SiderBar = () => {
   //       icon: <IconCommentStroked />,
   //     },
   //     {
-  //       text: '模型价格',
-  //       itemKey: 'pricing',
-  //       to: '/pricing',
-  //       icon: <IconPriceTag />,
-  //     },
-  //     {
   //       text: '渠道',
   //       itemKey: 'channel',
   //       to: '/channel',
@@ -139,6 +133,16 @@ const SiderBar = () => {
   //       itemKey: 'token',
   //       to: '/token',
   //       icon: <IconKey />,
+  //     },
+  //     {
+  //       text: '数据看板',
+  //       itemKey: 'detail',
+  //       to: '/detail',
+  //       icon: <IconCalendarClock />,
+  //       className:
+  //         localStorage.getItem('enable_data_export') === 'true'
+  //           ? 'semi-navigation-item-normal'
+  //           : 'tableHiddle',
   //     },
   //     {
   //       text: '兑换码',
@@ -165,16 +169,6 @@ const SiderBar = () => {
   //       itemKey: 'log',
   //       to: '/log',
   //       icon: <IconHistogram />,
-  //     },
-  //     {
-  //       text: '数据看板',
-  //       itemKey: 'detail',
-  //       to: '/detail',
-  //       icon: <IconCalendarClock />,
-  //       className:
-  //         localStorage.getItem('enable_data_export') === 'true'
-  //           ? 'semi-navigation-item-normal'
-  //           : 'tableHiddle',
   //     },
   //     {
   //       text: '绘图',
@@ -246,16 +240,6 @@ const SiderBar = () => {
         to: '/token',
         icon: <IconTag />,
       },
-      // {
-      //   text: '数据看板',
-      //   itemKey: 'detail',
-      //   to: '/detail',
-      //   icon: <IconCalendarClock />,
-      //   className:
-      //     localStorage.getItem('enable_data_export') === 'true'
-      //       ? 'semi-navigation-item-normal'
-      //       : 'tableHiddle',
-      // },
       {
         text: '额度充值',
         itemKey: 'topup',
@@ -498,9 +482,9 @@ const SiderBar = () => {
         items={headerButtons}
         onSelect={(key) => {
           if (key.itemKey.toString().startsWith('chat')) {
-            styleDispatch({ type: 'SET_INNER_PADDING', payload: false });
-          } else {
             styleDispatch({ type: 'SET_INNER_PADDING', payload: true });
+          } else {
+            styleDispatch({ type: 'SET_INNER_PADDING', payload: false });
           }
           setSelectedKeys([key.itemKey]);
         }}
@@ -514,7 +498,7 @@ const SiderBar = () => {
       {/* wxDa 2024-12-11 修改第五处 默认展开子导航'logs','management' */}
       <Nav
         style={{ maxWidth: 220, height: '100%' }}
-        defaultOpenKeys={['logs','management']}
+        defaultOpenKeys={['logs', 'management']}
         defaultIsCollapsed={
           localStorage.getItem('default_collapse_sidebar') === 'true'
         }
@@ -557,16 +541,16 @@ const SiderBar = () => {
         items={headerButtons}
         onSelect={(key) => {
           if (key.itemKey.toString().startsWith('chat')) {
-            styleDispatch({ type: 'SET_INNER_PADDING', payload: true });
-          } else {
             styleDispatch({ type: 'SET_INNER_PADDING', payload: false });
+          } else {
+            styleDispatch({ type: 'SET_INNER_PADDING', payload: true });
           }
           setSelectedKeys([key.itemKey]);
         }}
-        // footer={
-        //   <>
-        //   </>
-        // }
+      // footer={
+      //   <>
+      //   </>
+      // }
       >
         {/* <Nav.Footer collapseButton={true}></Nav.Footer> */}
       </Nav>

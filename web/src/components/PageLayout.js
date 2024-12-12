@@ -11,19 +11,40 @@ const { Sider, Content, Header, Footer } = Layout;
 
 const PageLayout = () => {
   const [styleState, styleDispatch] = useContext(StyleContext);
+  // 定义点击遮罩层的处理函数
+  const handleMaskClick = () => {
+    styleDispatch({ type: 'SET_SIDER', payload: false });
+  };
 
   return (
     <Layout style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
-      <Header>
+      <Header style={{ zIndex: 999 }}>
         <HeaderBar />
       </Header>
       <Layout style={{ flex: 1, overflow: 'hidden' }}>
-        <Sider style={{ zIndex: 999, position: 'absolute' }}>
+        {/* <Sider> */}
+        <Sider style={styleState.isMobile ? { zIndex: 999, position: 'absolute' } : undefined}>
           {styleState.showSider ? <SiderBar /> : null}
         </Sider>
+        {/* 添加遮罩层 */}
+        {styleState.isMobile && styleState.showSider && (
+          <div
+            style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              backgroundColor: 'rgba(0, 0, 0, 0.5)', // 半透明黑色背景
+              zIndex: 998, // 确保遮罩层在 Sider 下方
+              // pointerEvents: 'all', // 阻止点击事件
+            }}
+            onClick={handleMaskClick} // 绑定点击事件
+          />
+        )}
         <Layout>
           <Content
-            style={{ overflowY: styleState.shouldInnerPadding?'auto':'hidden', padding: styleState.shouldInnerPadding? '24px': '0' }}
+            style={{ overflowY: styleState.shouldInnerPadding ? 'auto' : 'hidden', padding: styleState.shouldInnerPadding ? '24px' : '0' }}
           >
             <App />
           </Content>
