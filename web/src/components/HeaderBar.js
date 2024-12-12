@@ -420,15 +420,12 @@ const HeaderBar = () => {
                 <div onClick={(e) => {
                   if (props.itemKey === 'home') {
                     styleDispatch({ type: 'SET_INNER_PADDING', payload: true });
-                    styleDispatch({ type: 'SET_SIDER', payload: true });
+                    styleDispatch({ type: 'SET_SIDER', payload: false });
                   } else if (props.itemKey === 'pricing' || props.itemKey === 'about' || props.itemKey === 'login' || props.itemKey === 'register') {
-                    styleDispatch({ type: 'SET_INNER_PADDING', payload: false });
-                    styleDispatch({ type: 'SET_SIDER', payload: true });
-                  } else {
                     styleDispatch({ type: 'SET_INNER_PADDING', payload: false });
                     styleDispatch({ type: 'SET_SIDER', payload: false });
                   } else {
-                    styleDispatch({ type: 'SET_INNER_PADDING', payload: true });
+                    styleDispatch({ type: 'SET_INNER_PADDING', payload: false });
                     styleDispatch({ type: 'SET_SIDER', payload: true });
                   }
                 }}>

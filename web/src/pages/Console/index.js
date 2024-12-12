@@ -69,7 +69,7 @@ const Console = () => {
           </div> */}
           <CardGroup style={{ width: '100%' }}>
             <Card style={{
-              'pointer-events': 'none',
+              'pointerEvents': 'none',
               width:
                 windowWidth < 843
                   ? '100%'
@@ -91,7 +91,7 @@ const Console = () => {
               </Descriptions>
             </Card>
             <Card style={{
-              'pointer-events': 'none',
+              'pointerEvents': 'none',
               width:
                 windowWidth < 843
                   ? '100%'
@@ -113,7 +113,7 @@ const Console = () => {
               </Descriptions>
             </Card>
             <Card style={{
-              'pointer-events': 'none',
+              'pointerEvents': 'none',
               width:
                 windowWidth < 843
                   ? '100%'
@@ -135,7 +135,7 @@ const Console = () => {
               </Descriptions>
             </Card>
             <Card style={{
-              'pointer-events': 'none',
+              'pointerEvents': 'none',
               width:
                 windowWidth < 843
                   ? '100%'

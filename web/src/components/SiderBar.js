@@ -246,16 +246,16 @@ const SiderBar = () => {
         to: '/token',
         icon: <IconTag />,
       },
-      {
-        text: '数据看板',
-        itemKey: 'detail',
-        to: '/detail',
-        icon: <IconCalendarClock />,
-        className:
-          localStorage.getItem('enable_data_export') === 'true'
-            ? 'semi-navigation-item-normal'
-            : 'tableHiddle',
-      },
+      // {
+      //   text: '数据看板',
+      //   itemKey: 'detail',
+      //   to: '/detail',
+      //   icon: <IconCalendarClock />,
+      //   className:
+      //     localStorage.getItem('enable_data_export') === 'true'
+      //       ? 'semi-navigation-item-normal'
+      //       : 'tableHiddle',
+      // },
       {
         text: '额度充值',
         itemKey: 'topup',
@@ -563,12 +563,12 @@ const SiderBar = () => {
           }
           setSelectedKeys([key.itemKey]);
         }}
-        footer={
-          <>
-          </>
-        }
+        // footer={
+        //   <>
+        //   </>
+        // }
       >
-        <Nav.Footer collapseButton={true}></Nav.Footer>
+        {/* <Nav.Footer collapseButton={true}></Nav.Footer> */}
       </Nav>
     </>
   );
