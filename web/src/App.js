@@ -30,6 +30,8 @@ import OAuth2Callback from "./components/OAuth2Callback.js";
 const Home = lazy(() => import('./pages/Home'));
 const Detail = lazy(() => import('./pages/Detail'));
 const About = lazy(() => import('./pages/About'));
+// wxDa 2024-12-12 修改第一处 增加console
+const Console = lazy(() => import('./pages/Console/index.js'));
 
 function App() {
   const [userState, userDispatch] = useContext(UserContext);
@@ -66,6 +68,15 @@ function App() {
           element={
             <Suspense fallback={<Loading></Loading>}>
               <Home />
+            </Suspense>
+          }
+        />
+        {/* wxDa 2024-12-12 修改第一处 增加console */}
+        <Route
+          path='/console'
+          element={
+            <Suspense fallback={<Loading></Loading>}>
+              <Console />
             </Suspense>
           }
         />
@@ -185,7 +196,7 @@ function App() {
           path='/oauth/linuxdo'
           element={
             <Suspense fallback={<Loading></Loading>}>
-                <OAuth2Callback type='linuxdo'></OAuth2Callback>
+              <OAuth2Callback type='linuxdo'></OAuth2Callback>
             </Suspense>
           }
         />
@@ -272,19 +283,19 @@ function App() {
           }
         />
         {/* 方便使用chat2link直接跳转聊天... */}
-          <Route
-            path='/chat2link'
-            element={
-              <PrivateRoute>
-                <Suspense fallback={<Loading></Loading>}>
-                    <Chat2Link />
-                </Suspense>
-              </PrivateRoute>
-            }
-          />
-          <Route path='*' element={<NotFound />} />
-        </Routes>
-      </>
+        <Route
+          path='/chat2link'
+          element={
+            <PrivateRoute>
+              <Suspense fallback={<Loading></Loading>}>
+                <Chat2Link />
+              </Suspense>
+            </PrivateRoute>
+          }
+        />
+        <Route path='*' element={<NotFound />} />
+      </Routes>
+    </>
   );
 }
 

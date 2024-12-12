@@ -18,7 +18,7 @@ const PageLayout = () => {
         <HeaderBar />
       </Header>
       <Layout style={{ flex: 1, overflow: 'hidden' }}>
-        <Sider>
+        <Sider style={{ zIndex: 999, position: 'absolute' }}>
           {styleState.showSider ? null : <SiderBar />}
         </Sider>
         <Layout>

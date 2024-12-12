@@ -13,20 +13,37 @@ import {
 } from '../helpers';
 import '../index.css';
 
+// import {
+//   IconCalendarClock, IconChecklistStroked,
+//   IconComment, IconCommentStroked,
+//   IconCreditCard,
+//   IconGift, IconHelpCircle,
+//   IconHistogram,
+//   IconHome,
+//   IconImage,
+//   IconKey,
+//   IconLayers,
+//   IconPriceTag,
+//   IconSetting,
+//   IconUser
+// } from '@douyinfe/semi-icons';
+// wxDa 2024-12-11 增加导入'@douyinfe/semi-icons-lab'
 import {
-  IconCalendarClock, IconChecklistStroked,
-  IconComment, IconCommentStroked,
-  IconCreditCard,
-  IconGift, IconHelpCircle,
-  IconHistogram,
-  IconHome,
+  IconProgress,
+  IconHighlight,
+  IconBanner,
+  IconTree,
+  IconOverflow,
+  IconTag,
+  IconCard,
+  IconToast,
+  IconAvatar,
+  IconChangelog,
+  IconPopover,
   IconImage,
-  IconKey,
-  IconLayers,
-  IconPriceTag,
-  IconSetting,
-  IconUser
-} from '@douyinfe/semi-icons';
+  IconSlider,
+  IconConfig
+} from '@douyinfe/semi-icons-lab';
 import { Avatar, Dropdown, Layout, Nav, Switch } from '@douyinfe/semi-ui';
 import { setStatusData } from '../helpers/data.js';
 import { stringToColor } from '../helpers/render.js';
@@ -47,6 +64,26 @@ const SiderBar = () => {
   const theme = useTheme();
   const setTheme = useSetTheme();
 
+  // const routerMap = {
+  //   home: '/',
+  //   channel: '/channel',
+  //   token: '/token',
+  //   redemption: '/redemption',
+  //   topup: '/topup',
+  //   user: '/user',
+  //   log: '/log',
+  //   midjourney: '/midjourney',
+  //   setting: '/setting',
+  //   about: '/about',
+  //   chat: '/chat',
+  //   detail: '/detail',
+  //   pricing: '/pricing',
+  //   task: '/task',
+  //   playground: '/playground',
+  //   // wxDa 2024-12-11 修改第二处 增加仪表盘
+  //   console: '/console',
+  // };
+  // wxDa 2024-12-11 修改第二处 增加仪表盘
   const routerMap = {
     home: '/',
     channel: '/channel',
@@ -63,106 +100,236 @@ const SiderBar = () => {
     pricing: '/pricing',
     task: '/task',
     playground: '/playground',
+    console: '/console',
   };
 
+  // const headerButtons = useMemo(
+  //   () => [
+  //     {
+  //       text: 'Playground',
+  //       itemKey: 'playground',
+  //       to: '/playground',
+  //       icon: <IconCommentStroked />,
+  //     },
+  //     {
+  //       text: '模型价格',
+  //       itemKey: 'pricing',
+  //       to: '/pricing',
+  //       icon: <IconPriceTag />,
+  //     },
+  //     {
+  //       text: '渠道',
+  //       itemKey: 'channel',
+  //       to: '/channel',
+  //       icon: <IconLayers />,
+  //       className: isAdmin() ? 'semi-navigation-item-normal' : 'tableHiddle',
+  //     },
+  //     {
+  //       text: '聊天',
+  //       itemKey: 'chat',
+  //       // to: '/chat',
+  //       items: chatItems,
+  //       icon: <IconComment />,
+  //       // className: localStorage.getItem('chat_link')
+  //       //   ? 'semi-navigation-item-normal'
+  //       //   : 'tableHiddle',
+  //     },
+  //     {
+  //       text: '令牌',
+  //       itemKey: 'token',
+  //       to: '/token',
+  //       icon: <IconKey />,
+  //     },
+  //     {
+  //       text: '兑换码',
+  //       itemKey: 'redemption',
+  //       to: '/redemption',
+  //       icon: <IconGift />,
+  //       className: isAdmin() ? 'semi-navigation-item-normal' : 'tableHiddle',
+  //     },
+  //     {
+  //       text: '钱包',
+  //       itemKey: 'topup',
+  //       to: '/topup',
+  //       icon: <IconCreditCard />,
+  //     },
+  //     {
+  //       text: '用户管理',
+  //       itemKey: 'user',
+  //       to: '/user',
+  //       icon: <IconUser />,
+  //       className: isAdmin() ? 'semi-navigation-item-normal' : 'tableHiddle',
+  //     },
+  //     {
+  //       text: '日志',
+  //       itemKey: 'log',
+  //       to: '/log',
+  //       icon: <IconHistogram />,
+  //     },
+  //     {
+  //       text: '数据看板',
+  //       itemKey: 'detail',
+  //       to: '/detail',
+  //       icon: <IconCalendarClock />,
+  //       className:
+  //         localStorage.getItem('enable_data_export') === 'true'
+  //           ? 'semi-navigation-item-normal'
+  //           : 'tableHiddle',
+  //     },
+  //     {
+  //       text: '绘图',
+  //       itemKey: 'midjourney',
+  //       to: '/midjourney',
+  //       icon: <IconImage />,
+  //       className:
+  //         localStorage.getItem('enable_drawing') === 'true'
+  //           ? 'semi-navigation-item-normal'
+  //           : 'tableHiddle',
+  //     },
+  //     {
+  //       text: '异步任务',
+  //       itemKey: 'task',
+  //       to: '/task',
+  //       icon: <IconChecklistStroked />,
+  //       className:
+  //         localStorage.getItem('enable_task') === 'true'
+  //           ? 'semi-navigation-item-normal'
+  //           : 'tableHiddle',
+  //     },
+  //     {
+  //       text: '设置',
+  //       itemKey: 'setting',
+  //       to: '/setting',
+  //       icon: <IconSetting />,
+  //     },
+  //     // {
+  //     //     text: '关于',
+  //     //     itemKey: 'about',
+  //     //     to: '/about',
+  //     //     icon: <IconAt/>
+  //     // }
+  //   ],
+  //   [
+  //     localStorage.getItem('enable_data_export'),
+  //     localStorage.getItem('enable_drawing'),
+  //     localStorage.getItem('enable_task'),
+  //     localStorage.getItem('chat_link'), chatItems,
+  //     isAdmin(),
+  //   ],
+  // );
+  // wxDa 2024-12-11 修改第一处 修改各text icon
+  // wxDa 2024-12-11 修改第二处 增加仪表盘
+  // wxDa 2024-12-11 修改第三处 修改导航排序 修改子导航上边距为0px
   const headerButtons = useMemo(
     () => [
+      {
+        text: '仪表盘',
+        itemKey: 'console',
+        to: '/',
+        icon: <IconProgress />,
+      },
       {
         text: 'Playground',
         itemKey: 'playground',
         to: '/playground',
-        icon: <IconCommentStroked />,
+        icon: <IconHighlight />,
       },
       {
-        text: '模型价格',
-        itemKey: 'pricing',
-        to: '/pricing',
-        icon: <IconPriceTag />,
-      },
-      {
-        text: '渠道',
-        itemKey: 'channel',
-        to: '/channel',
-        icon: <IconLayers />,
-        className: isAdmin() ? 'semi-navigation-item-normal' : 'tableHiddle',
-      },
-      {
-        text: '聊天',
+        text: '在线聊天',
         itemKey: 'chat',
-        // to: '/chat',
         items: chatItems,
-        icon: <IconComment />,
-        // className: localStorage.getItem('chat_link')
-        //   ? 'semi-navigation-item-normal'
-        //   : 'tableHiddle',
+        icon: <IconOverflow />,
       },
       {
-        text: '令牌',
+        text: '令牌管理',
         itemKey: 'token',
         to: '/token',
-        icon: <IconKey />,
+        icon: <IconTag />,
       },
       {
-        text: '兑换码',
-        itemKey: 'redemption',
-        to: '/redemption',
-        icon: <IconGift />,
-        className: isAdmin() ? 'semi-navigation-item-normal' : 'tableHiddle',
-      },
-      {
-        text: '钱包',
+        text: '额度充值',
         itemKey: 'topup',
         to: '/topup',
-        icon: <IconCreditCard />,
-      },
-      {
-        text: '用户管理',
-        itemKey: 'user',
-        to: '/user',
-        icon: <IconUser />,
-        className: isAdmin() ? 'semi-navigation-item-normal' : 'tableHiddle',
+        icon: <IconToast />,
       },
       {
         text: '日志',
-        itemKey: 'log',
-        to: '/log',
-        icon: <IconHistogram />,
-      },
-      {
-        text: '数据看板',
-        itemKey: 'detail',
-        to: '/detail',
-        icon: <IconCalendarClock />,
-        className:
-          localStorage.getItem('enable_data_export') === 'true'
-            ? 'semi-navigation-item-normal'
-            : 'tableHiddle',
-      },
-      {
-        text: '绘图',
-        itemKey: 'midjourney',
-        to: '/midjourney',
-        icon: <IconImage />,
-        className:
-          localStorage.getItem('enable_drawing') === 'true'
-            ? 'semi-navigation-item-normal'
-            : 'tableHiddle',
-      },
-      {
-        text: '异步任务',
-        itemKey: 'task',
-        to: '/task',
-        icon: <IconChecklistStroked />,
-        className:
-            localStorage.getItem('enable_task') === 'true'
+        itemKey: 'logs',
+        items: [
+          {
+            text: '统计图表',
+            itemKey: 'detail',
+            to: '/detail',
+            icon: <IconPopover />,
+            className:
+              localStorage.getItem('enable_data_export') === 'true'
                 ? 'semi-navigation-item-normal'
                 : 'tableHiddle',
+            style: { 'marginTop': '0px' },
+          },
+          {
+            text: '请求日志',
+            itemKey: 'log',
+            to: '/log',
+            icon: <IconChangelog />,
+            style: { 'marginTop': '0px' },
+          },
+          {
+            text: '绘图记录',
+            itemKey: 'midjourney',
+            to: '/midjourney',
+            icon: <IconImage />,
+            className:
+              localStorage.getItem('enable_drawing') === 'true'
+                ? 'semi-navigation-item-normal'
+                : 'tableHiddle',
+            style: { 'marginTop': '0px' },
+          },
+          {
+            text: '异步任务',
+            itemKey: 'task',
+            to: '/task',
+            icon: <IconSlider />,
+            className:
+              localStorage.getItem('enable_task') === 'true'
+                ? 'semi-navigation-item-normal'
+                : 'tableHiddle',
+            style: { 'marginTop': '0px' },
+          }
+        ]
       },
       {
-        text: '设置',
-        itemKey: 'setting',
-        to: '/setting',
-        icon: <IconSetting />,
+        text: '管理',
+        itemKey: 'management',
+        items: [
+          {
+            text: '渠道管理',
+            itemKey: 'channel',
+            to: '/channel',
+            icon: <IconTree />,
+            className: isAdmin() ? 'semi-navigation-item-normal' : 'tableHiddle',
+          },
+          {
+            text: '兑换卡密',
+            itemKey: 'redemption',
+            to: '/redemption',
+            icon: <IconCard />,
+            className: isAdmin() ? 'semi-navigation-item-normal' : 'tableHiddle',
+          },
+          {
+            text: '用户管理',
+            itemKey: 'user',
+            to: '/user',
+            icon: <IconAvatar />,
+            className: isAdmin() ? 'semi-navigation-item-normal' : 'tableHiddle',
+          },
+          {
+            text: '站点设置',
+            itemKey: 'setting',
+            to: '/setting',
+            icon: <IconConfig />,
+          }
+        ]
       },
       // {
       //     text: '关于',
@@ -194,10 +361,50 @@ const SiderBar = () => {
     }
   };
 
+  // useEffect(() => {
+  //   loadStatus().then(() => {
+  //     setIsCollapsed(
+  //       localStorage.getItem('default_collapse_sidebar') === 'true',
+  //     );
+  //   });
+  //   let localKey = window.location.pathname.split('/')[1];
+  //   if (localKey === '') {
+  //     localKey = 'home';
+  //   }
+  //   setSelectedKeys([localKey]);
+  //   let chatLink = localStorage.getItem('chat_link');
+  //   if (!chatLink) {
+  //     let chats = localStorage.getItem('chats');
+  //     if (chats) {
+  //       // console.log(chats);
+  //       try {
+  //         chats = JSON.parse(chats);
+  //         if (Array.isArray(chats)) {
+  //           let chatItems = [];
+  //           for (let i = 0; i < chats.length; i++) {
+  //             let chat = {};
+  //             for (let key in chats[i]) {
+  //               chat.text = key;
+  //               chat.itemKey = 'chat' + i;
+  //               chat.to = '/chat/' + i;
+  //             }
+  //             // setRouterMap({ ...routerMap, chat: '/chat/' + i })
+  //             chatItems.push(chat);
+  //           }
+  //           setChatItems(chatItems);
+  //         }
+  //       } catch (e) {
+  //         console.error(e);
+  //         showError('聊天数据解析失败')
+  //       }
+  //     }
+  //   }
+  // }, []);
+  // wxDa 2024-12-11 修改第四处 修改聊天子导航上边距为0px
   useEffect(() => {
     loadStatus().then(() => {
       setIsCollapsed(
-          localStorage.getItem('default_collapse_sidebar') === 'true',
+        localStorage.getItem('default_collapse_sidebar') === 'true',
       );
     });
     let localKey = window.location.pathname.split('/')[1];
@@ -207,36 +414,37 @@ const SiderBar = () => {
     setSelectedKeys([localKey]);
     let chatLink = localStorage.getItem('chat_link');
     if (!chatLink) {
-        let chats = localStorage.getItem('chats');
-        if (chats) {
-            // console.log(chats);
-            try {
-                chats = JSON.parse(chats);
-                if (Array.isArray(chats)) {
-                    let chatItems = [];
-                    for (let i = 0; i < chats.length; i++) {
-                        let chat = {};
-                        for (let key in chats[i]) {
-                            chat.text = key;
-                            chat.itemKey = 'chat' + i;
-                            chat.to = '/chat/' + i;
-                        }
-                        // setRouterMap({ ...routerMap, chat: '/chat/' + i })
-                        chatItems.push(chat);
-                    }
-                    setChatItems(chatItems);
-                }
-            } catch (e) {
-                console.error(e);
-                showError('聊天数据解析失败')
+      let chats = localStorage.getItem('chats');
+      if (chats) {
+        // console.log(chats);
+        try {
+          chats = JSON.parse(chats);
+          if (Array.isArray(chats)) {
+            let chatItems = [];
+            for (let i = 0; i < chats.length; i++) {
+              let chat = {};
+              for (let key in chats[i]) {
+                chat.text = key;
+                chat.itemKey = 'chat' + i;
+                chat.to = '/chat/' + i;
+                chat.style = { 'marginTop': '0px' };
+              }
+              // setRouterMap({ ...routerMap, chat: '/chat/' + i })
+              chatItems.push(chat);
             }
+            setChatItems(chatItems);
+          }
+        } catch (e) {
+          console.error(e);
+          showError('聊天数据解析失败')
         }
+      }
     }
   }, []);
 
   return (
     <>
-      <Nav
+      {/* <Nav
         style={{ maxWidth: 220, height: '100%' }}
         defaultIsCollapsed={
           localStorage.getItem('default_collapse_sidebar') === 'true'
@@ -247,27 +455,86 @@ const SiderBar = () => {
         }}
         selectedKeys={selectedKeys}
         renderWrapper={({ itemElement, isSubNav, isInSubNav, props }) => {
-            let chatLink = localStorage.getItem('chat_link');
-            if (!chatLink) {
-                let chats = localStorage.getItem('chats');
-                if (chats) {
-                    chats = JSON.parse(chats);
-                    if (Array.isArray(chats) && chats.length > 0) {
-                        for (let i = 0; i < chats.length; i++) {
-                            routerMap['chat' + i] = '/chat/' + i;
-                        }
-                        if (chats.length > 1) {
-                            // delete /chat
-                            if (routerMap['chat']) {
-                                delete routerMap['chat'];
-                            }
-                        } else {
-                            // rename /chat to /chat/0
-                            routerMap['chat'] = '/chat/0';
-                        }
-                    }
+          let chatLink = localStorage.getItem('chat_link');
+          if (!chatLink) {
+            let chats = localStorage.getItem('chats');
+            if (chats) {
+              chats = JSON.parse(chats);
+              if (Array.isArray(chats) && chats.length > 0) {
+                for (let i = 0; i < chats.length; i++) {
+                  routerMap['chat' + i] = '/chat/' + i;
                 }
+                if (chats.length > 1) {
+                  // delete /chat
+                  if (routerMap['chat']) {
+                    delete routerMap['chat'];
+                  }
+                } else {
+                  // rename /chat to /chat/0
+                  routerMap['chat'] = '/chat/0';
+                }
+              }
             }
+          }
+          return (
+            <Link
+              style={{ textDecoration: 'none' }}
+              to={routerMap[props.itemKey]}
+            >
+              {itemElement}
+            </Link>
+          );
+        }}
+        items={headerButtons}
+        onSelect={(key) => {
+          if (key.itemKey.toString().startsWith('chat')) {
+            styleDispatch({ type: 'SET_INNER_PADDING', payload: true });
+          } else {
+            styleDispatch({ type: 'SET_INNER_PADDING', payload: false });
+          }
+          setSelectedKeys([key.itemKey]);
+        }}
+        footer={
+          <>
+          </>
+        }
+      >
+        <Nav.Footer collapseButton={true}></Nav.Footer>
+      </Nav> */}
+      {/* wxDa 2024-12-11 修改第五处 默认展开子导航'logs','management' */}
+      <Nav
+        style={{ maxWidth: 220, height: '100%' }}
+        defaultOpenKeys={['logs','management']}
+        defaultIsCollapsed={
+          localStorage.getItem('default_collapse_sidebar') === 'true'
+        }
+        isCollapsed={isCollapsed}
+        onCollapseChange={(collapsed) => {
+          setIsCollapsed(collapsed);
+        }}
+        selectedKeys={selectedKeys}
+        renderWrapper={({ itemElement, isSubNav, isInSubNav, props }) => {
+          let chatLink = localStorage.getItem('chat_link');
+          if (!chatLink) {
+            let chats = localStorage.getItem('chats');
+            if (chats) {
+              chats = JSON.parse(chats);
+              if (Array.isArray(chats) && chats.length > 0) {
+                for (let i = 0; i < chats.length; i++) {
+                  routerMap['chat' + i] = '/chat/' + i;
+                }
+                if (chats.length > 1) {
+                  // delete /chat
+                  if (routerMap['chat']) {
+                    delete routerMap['chat'];
+                  }
+                } else {
+                  // rename /chat to /chat/0
+                  routerMap['chat'] = '/chat/0';
+                }
+              }
+            }
+          }
           return (
             <Link
               style={{ textDecoration: 'none' }}
