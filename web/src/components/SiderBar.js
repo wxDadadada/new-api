@@ -247,6 +247,16 @@ const SiderBar = () => {
         icon: <IconTag />,
       },
       {
+        text: '数据看板',
+        itemKey: 'detail',
+        to: '/detail',
+        icon: <IconCalendarClock />,
+        className:
+          localStorage.getItem('enable_data_export') === 'true'
+            ? 'semi-navigation-item-normal'
+            : 'tableHiddle',
+      },
+      {
         text: '额度充值',
         itemKey: 'topup',
         to: '/topup',
@@ -488,9 +498,9 @@ const SiderBar = () => {
         items={headerButtons}
         onSelect={(key) => {
           if (key.itemKey.toString().startsWith('chat')) {
-            styleDispatch({ type: 'SET_INNER_PADDING', payload: true });
-          } else {
             styleDispatch({ type: 'SET_INNER_PADDING', payload: false });
+          } else {
+            styleDispatch({ type: 'SET_INNER_PADDING', payload: true });
           }
           setSelectedKeys([key.itemKey]);
         }}

@@ -427,6 +427,9 @@ const HeaderBar = () => {
                   } else {
                     styleDispatch({ type: 'SET_INNER_PADDING', payload: false });
                     styleDispatch({ type: 'SET_SIDER', payload: false });
+                  } else {
+                    styleDispatch({ type: 'SET_INNER_PADDING', payload: true });
+                    styleDispatch({ type: 'SET_SIDER', payload: true });
                   }
                 }}>
                   <Link
@@ -450,12 +453,12 @@ const HeaderBar = () => {
               logo: (
                 <>
                   {
-                    styleState.showSider ?
+                    !styleState.showSider ?
                       <Button icon={<IconMenu />} theme="light" aria-label="展开侧边栏" onClick={
-                        () => styleDispatch({ type: 'SET_SIDER', payload: false })
-                      } /> :
-                      <Button icon={<IconIndentLeft />} theme="light" aria-label="关闭侧边栏" onClick={
                         () => styleDispatch({ type: 'SET_SIDER', payload: true })
+                      } />:
+                      <Button icon={<IconIndentLeft />} theme="light" aria-label="关闭侧边栏" onClick={
+                        () => styleDispatch({ type: 'SET_SIDER', payload: false })
                       } />
                   }
                 </>
