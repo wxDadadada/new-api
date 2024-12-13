@@ -44,7 +44,7 @@ const PageLayout = () => {
         )}
         <Layout>
           <Content
-            style={{ overflowY: styleState.shouldInnerPadding ? 'auto' : 'hidden', padding: styleState.shouldInnerPadding ? '24px' : '0' }}
+            style={{ overflowY: 'auto', padding: styleState.shouldInnerPadding? '24px': '0' }}
           >
             <App />
           </Content>
