@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserContext } from '../context/User';
 import { StatusContext } from '../context/Status';
+import { useTranslation } from 'react-i18next';
 
 import {
   API,
@@ -53,6 +54,7 @@ import { StyleContext } from '../context/Style/index.js';
 // HeaderBar Buttons
 
 const SiderBar = () => {
+  const { t } = useTranslation();
   const [styleState, styleDispatch] = useContext(StyleContext);
   const [statusState, statusDispatch] = useContext(StatusContext);
   const defaultIsCollapsed =
@@ -229,25 +231,33 @@ const SiderBar = () => {
         icon: <IconHighlight />,
       },
       {
+        text: t('渠道'),
+        itemKey: 'channel',
+        to: '/channel',
+        icon: <IconLayers />,
+        className: isAdmin() ? 'semi-navigation-item-normal' : 'tableHiddle',
+      },
+      {
+        text: t('聊天'),
         text: '在线聊天',
         itemKey: 'chat',
         items: chatItems,
         icon: <IconOverflow />,
       },
       {
-        text: '令牌管理',
+        text: t('令牌管理'),
         itemKey: 'token',
         to: '/token',
         icon: <IconTag />,
       },
       {
-        text: '额度充值',
+        text: t('额度充值'),
         itemKey: 'topup',
         to: '/topup',
         icon: <IconToast />,
       },
       {
-        text: '日志',
+        text: t('日志'),
         itemKey: 'logs',
         items: [
           {
@@ -269,7 +279,7 @@ const SiderBar = () => {
             style: { 'marginTop': '0px' },
           },
           {
-            text: '绘图记录',
+            text: t('绘图记录'),
             itemKey: 'midjourney',
             to: '/midjourney',
             icon: <IconImage />,
@@ -280,7 +290,7 @@ const SiderBar = () => {
             style: { 'marginTop': '0px' },
           },
           {
-            text: '异步任务',
+            text: t('异步任务'),
             itemKey: 'task',
             to: '/task',
             icon: <IconSlider />,
@@ -293,7 +303,7 @@ const SiderBar = () => {
         ]
       },
       {
-        text: '管理',
+        text: t('管理',
         itemKey: 'management',
         items: [
           {
@@ -318,26 +328,22 @@ const SiderBar = () => {
             className: isAdmin() ? 'semi-navigation-item-normal' : 'tableHiddle',
           },
           {
-            text: '站点设置',
+            text: '站点设置'),
             itemKey: 'setting',
             to: '/setting',
             icon: <IconConfig />,
           }
         ]
       },
-      // {
-      //     text: '关于',
-      //     itemKey: 'about',
-      //     to: '/about',
-      //     icon: <IconAt/>
-      // }
     ],
     [
       localStorage.getItem('enable_data_export'),
       localStorage.getItem('enable_drawing'),
       localStorage.getItem('enable_task'),
-      localStorage.getItem('chat_link'), chatItems,
+      localStorage.getItem('chat_link'),
+      chatItems,
       isAdmin(),
+      t,
     ],
   );
 
@@ -396,16 +402,12 @@ const SiderBar = () => {
   // }, []);
   // wxDa 2024-12-11 修改第四处 修改聊天子导航上边距为0px
   useEffect(() => {
-    loadStatus().then(() => {
-      setIsCollapsed(
-        localStorage.getItem('default_collapse_sidebar') === 'true',
-      );
-    });
     let localKey = window.location.pathname.split('/')[1];
     if (localKey === '') {
       localKey = 'home';
     }
     setSelectedKeys([localKey]);
+    
     let chatLink = localStorage.getItem('chat_link');
     if (!chatLink) {
       let chats = localStorage.getItem('chats');
@@ -434,6 +436,8 @@ const SiderBar = () => {
         }
       }
     }
+    
+    setIsCollapsed(localStorage.getItem('default_collapse_sidebar') === 'true');
   }, []);
 
   return (

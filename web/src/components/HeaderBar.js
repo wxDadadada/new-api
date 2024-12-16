@@ -4,6 +4,7 @@ import React, { useContext, useEffect, useState, useMemo } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { UserContext } from '../context/User';
 import { useSetTheme, useTheme } from '../context/Theme';
+import { useTranslation } from 'react-i18next';
 
 import { API, getLogo, getSystemName, isMobile, showSuccess } from '../helpers';
 import '../index.css';
@@ -32,6 +33,7 @@ import {
   IconNoteMoneyStroked,
   IconPriceTag,
   IconUser,
+  IconLanguage,
   IconUserStroked,
   IconSendStroked,
   IconFollowStroked,
@@ -63,28 +65,12 @@ import { stringToColor } from '../helpers/render';
 import Text from '@douyinfe/semi-ui/lib/es/typography/text';
 import { StyleContext } from '../context/Style/index.js';
 
-// HeaderBar Buttons
-let headerButtons = [
-  {
-    text: '关于',
-    itemKey: 'about',
-    to: '/about',
-    icon: <IconHelpCircle />,
-  },
-];
-
-if (localStorage.getItem('chat_link')) {
-  headerButtons.splice(1, 0, {
-    name: '聊天',
-    to: '/chat',
-    icon: 'comments',
-  });
-}
-
 const HeaderBar = () => {
+  const { t, i18n } = useTranslation();
   const [userState, userDispatch] = useContext(UserContext);
   const [styleState, styleDispatch] = useContext(StyleContext);
   let navigate = useNavigate();
+  const [currentLang, setCurrentLang] = useState(i18n.language);
 
   // wxDa 2024-12-11 修改第六处 修改selectedKeys onSelect
   let location = useLocation(); // 获取当前路由信息
@@ -92,6 +78,10 @@ const HeaderBar = () => {
 
   const systemName = getSystemName();
   const logo = getLogo();
+  const currentDate = new Date();
+  // enable fireworks on new year(1.1 and 2.9-2.24)
+  const isNewYear =
+    (currentDate.getMonth() === 0 && currentDate.getDate() === 1);
   // wxDa 2024-12-11 修改第一处 去掉新年特效
   // const currentDate = new Date();
   // // enable fireworks on new year(1.1 and 2.9-2.24)
@@ -121,25 +111,30 @@ const HeaderBar = () => {
   // wxDa 2024-12-11 修改第七处 修改控制台
   let buttons = [
     {
-      text: '首页',
+      text: t('首页'),
       itemKey: 'home',
       to: '/',
     },
     {
-      text: '控制台',
+      text: t('控制台'),
       itemKey: 'console',
       to: '/console',
     },
     {
-      text: '定价',
+      text: t('定价'),
       itemKey: 'pricing',
       to: '/pricing',
+    },
+    {
+      text: t('关于'),
+      itemKey: 'about',
+      to: '/about',
     },
   ];
 
   async function logout() {
     await API.get('/api/user/logout');
-    showSuccess('注销成功!');
+    showSuccess(t('注销成功!'));
     userDispatch({ type: 'logout' });
     localStorage.removeItem('user');
     navigate('/login');
@@ -169,6 +164,22 @@ const HeaderBar = () => {
     //   console.log('Happy New Year!');
     // }
   }, []);
+
+  useEffect(() => {
+    const handleLanguageChanged = (lng) => {
+      setCurrentLang(lng);
+    };
+
+    i18n.on('languageChanged', handleLanguageChanged);
+
+    return () => {
+      i18n.off('languageChanged', handleLanguageChanged);
+    };
+  }, [i18n]);
+
+  const handleLanguageChange = (lang) => {
+    i18n.changeLanguage(lang);
+  };
   // wxDa 2024-12-11 修改第六处 修改selectedKeys onSelect
   useEffect(() => {
     // 根据当前路径更新 selectedKey
@@ -194,6 +205,7 @@ const HeaderBar = () => {
       <Layout>
         <div style={{ width: '100%' }}>
           <Nav
+            className={'topnav'}
             mode={'horizontal'}
             renderWrapper={({ itemElement, isSubNav, isInSubNav, props }) => {
               const routerMap = {
@@ -216,7 +228,9 @@ const HeaderBar = () => {
                     styleDispatch({ type: 'SET_SIDER', payload: false });
                   } else {
                     styleDispatch({ type: 'SET_INNER_PADDING', payload: true });
-                    styleDispatch({ type: 'SET_SIDER', payload: true });
+                    if (!styleState.isMobile) {
+                      styleDispatch({ type: 'SET_SIDER', payload: true });
+                    }
                   }
                 }}>
                   <Link
@@ -241,10 +255,10 @@ const HeaderBar = () => {
                 <>
                   {
                     !styleState.showSider ?
-                      <Button icon={<IconMenu />} theme="light" aria-label="展开侧边栏" onClick={
+                      <Button icon={<IconMenu />} theme="light" aria-label={t('展开侧边栏')} onClick={
                         () => styleDispatch({ type: 'SET_SIDER', payload: true })
-                      } /> :
-                      <Button icon={<IconIndentLeft />} theme="light" aria-label="关闭侧边栏" onClick={
+                      } />:
+                      <Button icon={<IconIndentLeft />} theme="light" aria-label={t('闭侧边栏')} onClick={
                         () => styleDispatch({ type: 'SET_SIDER', payload: false })
                       } />
                   }
@@ -275,6 +289,9 @@ const HeaderBar = () => {
                   >
                     <Nav.Item itemKey={'new-year'} text={'🏮'} />
                   </Dropdown>
+                )}
+                {/* <Nav.Item itemKey={'about'} icon={<IconHelpCircle />} /> */}
+                <>
                 )} */}
                 {/* <Nav.Item itemKey={'about'} icon={<IconHelpCircle />} /> */}
                 {/* wxDa 2024-12-11 修改第二处 替换about的icon IconFaq */}
@@ -300,13 +317,37 @@ const HeaderBar = () => {
                     }}
                   />
                 </> */}
+                <Dropdown
+                  position='bottomRight'
+                  render={
+                    <Dropdown.Menu>
+                      <Dropdown.Item 
+                        onClick={() => handleLanguageChange('zh')}
+                        type={currentLang === 'zh' ? 'primary' : 'tertiary'}
+                      >
+                        中文
+                      </Dropdown.Item>
+                      <Dropdown.Item 
+                        onClick={() => handleLanguageChange('en')}
+                        type={currentLang === 'en' ? 'primary' : 'tertiary'}
+                      >
+                        English
+                      </Dropdown.Item>
+                    </Dropdown.Menu>
+                  }
+                >
+                  <Nav.Item 
+                    itemKey={'language'} 
+                    icon={<IconLanguage />}
+                  />
+                </Dropdown>
                 {userState.user ? (
                   <>
                     <Dropdown
                       position='bottomRight'
                       render={
                         <Dropdown.Menu>
-                          <Dropdown.Item onClick={logout}>退出</Dropdown.Item>
+                          <Dropdown.Item onClick={logout}>{t('退出')}</Dropdown.Item>
                         </Dropdown.Menu>
                       }
                     >
@@ -335,6 +376,7 @@ const HeaderBar = () => {
                   <>
                     {/* <Nav.Item
                       itemKey={'login'}
+                      text={!styleState.isMobile?t('登录'):null}
                       text={'登录'}
                     // icon={<IconKey />}
                     />
@@ -366,6 +408,15 @@ const HeaderBar = () => {
                       // onClick={() => setSelectedKey('register')}
                       icon={<IconFollowStroked size='large' />}
                     />}
+                    {
+                      !styleState.isMobile && (
+                        <Nav.Item
+                          itemKey={'register'}
+                          text={t('注册')}
+                          icon={<IconKey />}
+                        />
+                      )
+                    }
                   </>
                 )}
               </>
