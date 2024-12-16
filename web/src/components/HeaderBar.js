@@ -257,7 +257,7 @@ const HeaderBar = () => {
                     !styleState.showSider ?
                       <Button icon={<IconMenu />} theme="light" aria-label={t('展开侧边栏')} onClick={
                         () => styleDispatch({ type: 'SET_SIDER', payload: true })
-                      } />:
+                      } /> :
                       <Button icon={<IconIndentLeft />} theme="light" aria-label={t('闭侧边栏')} onClick={
                         () => styleDispatch({ type: 'SET_SIDER', payload: false })
                       } />
@@ -291,9 +291,6 @@ const HeaderBar = () => {
                   </Dropdown>
                 )}
                 {/* <Nav.Item itemKey={'about'} icon={<IconHelpCircle />} /> */}
-                <>
-                )} */}
-                {/* <Nav.Item itemKey={'about'} icon={<IconHelpCircle />} /> */}
                 {/* wxDa 2024-12-11 修改第二处 替换about的icon IconFaq */}
                 <Nav.Item itemKey={'about'}
                   // style={{ marginRight: '4px' }}
@@ -321,13 +318,13 @@ const HeaderBar = () => {
                   position='bottomRight'
                   render={
                     <Dropdown.Menu>
-                      <Dropdown.Item 
+                      <Dropdown.Item
                         onClick={() => handleLanguageChange('zh')}
                         type={currentLang === 'zh' ? 'primary' : 'tertiary'}
                       >
                         中文
                       </Dropdown.Item>
-                      <Dropdown.Item 
+                      <Dropdown.Item
                         onClick={() => handleLanguageChange('en')}
                         type={currentLang === 'en' ? 'primary' : 'tertiary'}
                       >
@@ -336,8 +333,8 @@ const HeaderBar = () => {
                     </Dropdown.Menu>
                   }
                 >
-                  <Nav.Item 
-                    itemKey={'language'} 
+                  <Nav.Item
+                    itemKey={'language'}
                     icon={<IconLanguage />}
                   />
                 </Dropdown>
