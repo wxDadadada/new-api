@@ -50,6 +50,9 @@ export const StyleProvider = ({ children }) => {
       if (pathname === '' || pathname === '/' || pathname.includes('/home') || pathname.includes('/chat')) {
         dispatch({ type: 'SET_SIDER', payload: false });
         dispatch({ type: 'SET_INNER_PADDING', payload: false });
+      } else if (pathname.includes('/pricing') || pathname.includes('/about') || pathname.includes('/login') || pathname.includes('/register')) {
+        dispatch({ type: 'SET_INNER_PADDING', payload: true });
+        dispatch({ type: 'SET_SIDER', payload: false });
       } else {
         dispatch({ type: 'SET_SIDER', payload: true });
         dispatch({ type: 'SET_INNER_PADDING', payload: true });

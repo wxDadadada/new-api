@@ -21,9 +21,17 @@ const PageLayout = () => {
       <Header style={{ zIndex: 999 }}>
         <HeaderBar />
       </Header>
-      <Layout style={{ flex: 1, overflow: 'hidden' }}>
+      <Layout style={{
+        flex: 1,
+        overflow: 'hidden',
+        display: 'flex'
+      }}>
         {/* <Sider> */}
-        <Sider style={styleState.isMobile ? { zIndex: 999, position: 'absolute' } : undefined}>
+        {/* <Sider style={styleState.isMobile ? { zIndex: 999, position: 'absolute' } : undefined}> */}
+        <Sider style={{
+          height: 'calc(100vh - 60px)', 
+          ...styleState.isMobile ? { zIndex: 999, position: 'absolute' } : {}
+        }}>
           {styleState.showSider ? <SiderBar /> : null}
         </Sider>
         {/* 添加遮罩层 */}
@@ -44,7 +52,7 @@ const PageLayout = () => {
         )}
         <Layout>
           <Content
-            style={{ overflowY: 'auto', padding: styleState.shouldInnerPadding? '24px': '0' }}
+            style={{ overflowY: 'auto', padding: styleState.shouldInnerPadding ? '24px' : '0' }}
           >
             <App />
           </Content>

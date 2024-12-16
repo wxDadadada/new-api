@@ -22,6 +22,7 @@ import fireworks from 'react-fireworks';
 // } from '@douyinfe/semi-icons';
 // wxDa 2024-12-11 修改第四处 替换头像 使用icon IconUserStroked
 // wxDa 2024-12-11 修改第五处 替换登录注册按钮的icon IconSendStroked IconFollowStroked
+// wxDa 2024-12-11 修改第二处 替换about的icon IconIssueStroked
 import {
   IconClose,
   IconHelpCircle,
@@ -33,7 +34,8 @@ import {
   IconUser,
   IconUserStroked,
   IconSendStroked,
-  IconFollowStroked
+  IconFollowStroked,
+  IconIssueStroked
 } from '@douyinfe/semi-icons';
 // wxDa 2024-12-11 增加导入'@douyinfe/semi-icons-lab'
 import {
@@ -56,9 +58,7 @@ import {
   // wxDa 2024-12-11 修改第二处 替换about的icon IconFaq
   IconFaq,
 } from '@douyinfe/semi-icons-lab';
-// import { Avatar, Button, Dropdown, Layout, Nav, Switch } from '@douyinfe/semi-ui';
-// wxDa 2024-12-11 修改第七处 增加SideSheet
-import { Avatar, Button, Dropdown, Layout, Nav, Switch, SideSheet } from '@douyinfe/semi-ui';
+import { Avatar, Button, Dropdown, Layout, Nav, Switch } from '@douyinfe/semi-ui';
 import { stringToColor } from '../helpers/render';
 import Text from '@douyinfe/semi-ui/lib/es/typography/text';
 import { StyleContext } from '../context/Style/index.js';
@@ -189,216 +189,6 @@ const HeaderBar = () => {
     }
   }, [location]);
 
-  // wxDa 2024-12-11 修改第七处 增加SideSheet
-  const [visible, setVisible] = useState(false);
-  const change = () => {
-    setVisible(!visible);
-  };
-  const [placement, setPlacement] = useState('left');
-  const changePlacement = e => {
-    setPlacement(e.target.value);
-  };
-
-  const sideSheetItem = useMemo(
-    () => [
-      {
-        text: '仪表盘',
-        itemKey: 'console',
-        to: '/',
-        icon: <IconProgress />,
-      },
-      {
-        text: 'Playground',
-        itemKey: 'playground',
-        to: '/playground',
-        icon: <IconHighlight />,
-      },
-      {
-        text: '在线聊天',
-        itemKey: 'chat',
-        // items: chatItems,
-        icon: <IconOverflow />,
-      },
-      {
-        text: '令牌管理',
-        itemKey: 'token',
-        to: '/token',
-        icon: <IconTag />,
-      },
-      {
-        text: '额度充值',
-        itemKey: 'topup',
-        to: '/topup',
-        icon: <IconToast />,
-      },
-      {
-        text: '日志',
-        itemKey: 'logs',
-        items: [
-          {
-            text: '统计图表',
-            itemKey: 'detail',
-            to: '/detail',
-            icon: <IconPopover />,
-            // className:
-            //   localStorage.getItem('enable_data_export') === 'true'
-            //     ? 'semi-navigation-item-normal'
-            //     : 'tableHiddle',
-            style: { 'marginTop': '0px' },
-          },
-          {
-            text: '请求日志',
-            itemKey: 'log',
-            to: '/log',
-            icon: <IconChangelog />,
-            style: { 'marginTop': '0px' },
-          },
-          {
-            text: '绘图记录',
-            itemKey: 'midjourney',
-            to: '/midjourney',
-            icon: <IconImage />,
-            // className:
-            //   localStorage.getItem('enable_drawing') === 'true'
-            //     ? 'semi-navigation-item-normal'
-            //     : 'tableHiddle',
-            style: { 'marginTop': '0px' },
-          },
-          {
-            text: '异步任务',
-            itemKey: 'task',
-            to: '/task',
-            icon: <IconSlider />,
-            // className:
-            //   localStorage.getItem('enable_task') === 'true'
-            //     ? 'semi-navigation-item-normal'
-            //     : 'tableHiddle',
-            style: { 'marginTop': '0px' },
-          }
-        ]
-      },
-      {
-        text: '管理',
-        itemKey: 'management',
-        items: [
-          {
-            text: '渠道管理',
-            itemKey: 'channel',
-            to: '/channel',
-            icon: <IconTree />,
-            // className: isAdmin() ? 'semi-navigation-item-normal' : 'tableHiddle',
-          },
-          {
-            text: '兑换卡密',
-            itemKey: 'redemption',
-            to: '/redemption',
-            icon: <IconCard />,
-            // className: isAdmin() ? 'semi-navigation-item-normal' : 'tableHiddle',
-          },
-          {
-            text: '用户管理',
-            itemKey: 'user',
-            to: '/user',
-            icon: <IconAvatar />,
-            // className: isAdmin() ? 'semi-navigation-item-normal' : 'tableHiddle',
-          },
-          {
-            text: '站点设置',
-            itemKey: 'setting',
-            to: '/setting',
-            icon: <IconConfig />,
-          }
-        ]
-      },
-      // {
-      //     text: '关于',
-      //     itemKey: 'about',
-      //     to: '/about',
-      //     icon: <IconAt/>
-      // }
-    ],
-    // [
-    //   // localStorage.getItem('enable_data_export'),
-    //   // localStorage.getItem('enable_drawing'),
-    //   // localStorage.getItem('enable_task'),
-    //   // localStorage.getItem('chat_link'), chatItems,
-    //   // isAdmin(),
-    // ],
-  );
-  // wxDa 2024-12-11 修改第二处 增加仪表盘
-  const sideSheetRouterMap = {
-    home: '/',
-    channel: '/channel',
-    token: '/token',
-    redemption: '/redemption',
-    topup: '/topup',
-    user: '/user',
-    log: '/log',
-    midjourney: '/midjourney',
-    setting: '/setting',
-    about: '/about',
-    chat: '/chat',
-    detail: '/detail',
-    pricing: '/pricing',
-    task: '/task',
-    playground: '/playground',
-    console: '/console',
-  };
-  // 封装 SideSheet 按钮和侧边栏
-  const renderSideSheet = () => {
-    return (
-      <>
-        <SideSheet title="滑动侧边栏" visible={visible} onCancel={change} placement={placement} width={'312px'} bodyStyle={{ paddingLeft: '0px', paddingRight: '0px', margin: '0' }}>
-          <Nav
-            style={{ width: '100%', paddingLeft: '20px', paddingRight: '20px', margin: '0' }}
-            defaultOpenKeys={['logs', 'management']}
-            defaultIsCollapsed={
-              localStorage.getItem('default_collapse_sidebar') === 'true'
-            }
-            // isCollapsed={isCollapsed}
-            onCollapseChange={(collapsed) => {
-              setIsCollapsed(collapsed);
-            }}
-            // selectedKeys={selectedKeys}
-            renderWrapper={({ itemElement, isSubNav, isInSubNav, props }) => {
-              let chatLink = localStorage.getItem('chat_link');
-              if (!chatLink) {
-                let chats = localStorage.getItem('chats');
-                if (chats) {
-                  chats = JSON.parse(chats);
-                  if (Array.isArray(chats) && chats.length > 0) {
-                    for (let i = 0; i < chats.length; i++) {
-                      sideSheetRouterMap['chat' + i] = '/chat/' + i;
-                    }
-                    if (chats.length > 1) {
-                      // delete /chat
-                      if (sideSheetRouterMap['chat']) {
-                        delete sideSheetRouterMap['chat'];
-                      }
-                    } else {
-                      // rename /chat to /chat/0
-                      sideSheetRouterMap['chat'] = '/chat/0';
-                    }
-                  }
-                }
-              }
-              return (
-                <Link
-                  style={{ textDecoration: 'none' }}
-                  to={sideSheetRouterMap[props.itemKey]}
-                >
-                  {itemElement}
-                </Link>
-              );
-            }}
-            items={sideSheetItem}
-          >
-          </Nav>
-        </SideSheet>
-      </>
-    );
-  };
-
   return (
     <>
       <Layout>
@@ -446,14 +236,14 @@ const HeaderBar = () => {
             selectedKeys={[selectedKey]}
             // items={headerButtons}
             onSelect={(key) => setSelectedKey(key)}
-            header={styleState.isMobile ? {
+            header={styleState.isMobile && location.pathname !== '/home' && location.pathname !== '/pricing' && location.pathname !== '/about' && location.pathname !== '/login' && location.pathname !== '/register' ? {
               logo: (
                 <>
                   {
                     !styleState.showSider ?
                       <Button icon={<IconMenu />} theme="light" aria-label="展开侧边栏" onClick={
                         () => styleDispatch({ type: 'SET_SIDER', payload: true })
-                      } />:
+                      } /> :
                       <Button icon={<IconIndentLeft />} theme="light" aria-label="关闭侧边栏" onClick={
                         () => styleDispatch({ type: 'SET_SIDER', payload: false })
                       } />
@@ -464,7 +254,8 @@ const HeaderBar = () => {
               logo: (
                 <img src={logo} alt='logo' />
               ),
-              text: systemName,
+              text: !styleState.isMobile ? systemName : undefined,
+
             }}
             items={buttons}
             footer={
@@ -488,10 +279,14 @@ const HeaderBar = () => {
                 {/* <Nav.Item itemKey={'about'} icon={<IconHelpCircle />} /> */}
                 {/* wxDa 2024-12-11 修改第二处 替换about的icon IconFaq */}
                 <Nav.Item itemKey={'about'}
-                  style={{ marginRight: '4px' }}
+                  // style={{ marginRight: '4px' }}
+                  style={{
+                    marginRight: '4px',
+                    // border: '1px solid #ccc', // 添加边框样式
+                  }}
                 // onClick={() => setSelectedKey('about')}
                 >
-                  <IconFaq size='large' />
+                  <IconIssueStroked size='large' />
                 </Nav.Item>
                 {/* wxDa 2024-12-11 修改第三处 去掉主题切换按钮 */}
                 {/* <>
@@ -549,21 +344,28 @@ const HeaderBar = () => {
                       icon={<IconUser />}
                     /> */}
                     {/* wxDa 2024-12-11 修改第五处 替换登录注册按钮的icon IconSendStroked IconFollowStroked */}
-                    <Button theme='solid' type='primary' size='large' onClick={change}>登录</Button>
+                    {/* <Button theme='solid' type='primary' size='large' onClick={change}>登录</Button> */}
                     <Nav.Item
                       itemKey={'login'}
                       text={'登录'}
                       // onClick={() => setSelectedKey('login')}
-                      style={{ marginRight: '2px' }}
+                      style={{
+                        marginRight: '2px',
+                        // border: '1px solid #ccc', // 添加边框样式
+                      }}
                       icon={<IconSendStroked size='large' />}
                     // icon={<IconFollowStroked />}
                     />
-                    <Nav.Item
+
+                    {styleState.isMobile ? null : <Nav.Item
                       itemKey={'register'}
                       text={'注册'}
+                      // style={{
+                      //   border: '1px solid #ccc', // 添加边框样式
+                      // }}
                       // onClick={() => setSelectedKey('register')}
                       icon={<IconFollowStroked size='large' />}
-                    />
+                    />}
                   </>
                 )}
               </>
@@ -571,7 +373,6 @@ const HeaderBar = () => {
           ></Nav>
         </div>
       </Layout>
-      {renderSideSheet()} {/* 确保 SideSheet 渲染在组件中 */}
     </>
   );
 };
