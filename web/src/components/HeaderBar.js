@@ -29,6 +29,7 @@ import {
   IconHelpCircle,
   IconHome,
   IconHomeStroked, IconIndentLeft,
+  IconComment,
   IconKey, IconMenu,
   IconNoteMoneyStroked,
   IconPriceTag,
@@ -163,11 +164,15 @@ const HeaderBar = () => {
     // if (isNewYear) {
     //   console.log('Happy New Year!');
     // }
-  }, []);
+  }, [theme]);
 
   useEffect(() => {
     const handleLanguageChanged = (lng) => {
       setCurrentLang(lng);
+      const iframe = document.querySelector('iframe');
+      if (iframe) {
+        iframe.contentWindow.postMessage({ lang: lng }, '*');
+      }
     };
 
     i18n.on('languageChanged', handleLanguageChanged);
@@ -215,6 +220,7 @@ const HeaderBar = () => {
                 pricing: '/pricing',
                 detail: '/detail',
                 home: '/',
+                chat: '/chat',
                 // wxDa 2024-12-11 修改第七处 修改控制台
                 console: '/console',
               };
