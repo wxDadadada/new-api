@@ -5,9 +5,12 @@ import { IllustrationSuccess, IllustrationSuccessDark, IllustrationFailure, Illu
 import { UserContext } from '../../context/User';
 import { API, isMobile } from '../../helpers';
 import { renderQuota } from '../../helpers/render';
+import { useTranslation } from 'react-i18next';
 
 const Console = () => {
   const [userState, userDispatch] = useContext(UserContext);
+  const { t, i18n } = useTranslation();
+  const [currentLang, setCurrentLang] = useState(i18n.language);
 
   const getUserData = async () => {
     let res = await API.get(`/api/user/self`);
@@ -37,6 +40,26 @@ const Console = () => {
       });
     }
   }, []);
+  
+  useEffect(() => {
+    const handleLanguageChanged = (lng) => {
+      setCurrentLang(lng);
+      const iframe = document.querySelector('iframe');
+      if (iframe) {
+        iframe.contentWindow.postMessage({ lang: lng }, '*');
+      }
+    };
+
+    i18n.on('languageChanged', handleLanguageChanged);
+
+    return () => {
+      i18n.off('languageChanged', handleLanguageChanged);
+    };
+  }, [i18n]);
+
+  const handleLanguageChange = (lang) => {
+    i18n.changeLanguage(lang);
+  };
 
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -85,8 +108,8 @@ const Console = () => {
                 >
                   <IconUserStroked size='extra-large' />
                 </Avatar>
-                <Descriptions.Item itemKey='用户名'>
-                  {!localStorage.getItem('user') ? '未登录' : getUsername()}
+                <Descriptions.Item itemKey={t('用户名')}>
+                  {!localStorage.getItem('user') ? t('未登录') : getUsername()}
                 </Descriptions.Item>
               </Descriptions>
             </Card>
@@ -107,8 +130,8 @@ const Console = () => {
                 >
                   <IconCoinMoneyStroked size='extra-large' />
                 </Avatar>
-                <Descriptions.Item itemKey='当前余额'>
-                  {!localStorage.getItem('user') ? '未登录' : renderQuota(userState?.user?.quota)}
+                <Descriptions.Item itemKey={t('当前余额')}>
+                  {!localStorage.getItem('user') ? t('未登录') : renderQuota(userState?.user?.quota)}
                 </Descriptions.Item>
               </Descriptions>
             </Card>
@@ -129,8 +152,8 @@ const Console = () => {
                 >
                   <IconPieChartStroked size='extra-large' />
                 </Avatar>
-                <Descriptions.Item itemKey='历史消耗'>
-                  {!localStorage.getItem('user') ? '未登录' : renderQuota(userState?.user?.used_quota)}
+                <Descriptions.Item itemKey={t('历史消耗')}>
+                  {!localStorage.getItem('user') ? t('未登录') : renderQuota(userState?.user?.used_quota)}
                 </Descriptions.Item>
               </Descriptions>
             </Card>
@@ -151,14 +174,14 @@ const Console = () => {
                 >
                   <IconSendStroked size='extra-large' />
                 </Avatar>
-                <Descriptions.Item itemKey='请求次数'>
-                  {!localStorage.getItem('user') ? '未登录' : userState.user?.request_count}
+                <Descriptions.Item itemKey={t('请求次数')}>
+                  {!localStorage.getItem('user') ? t('未登录') : userState.user?.request_count}
                 </Descriptions.Item>
               </Descriptions>
             </Card>
           </CardGroup>
           <CardGroup style={{ width: '100%' }}>
-            <Card title='状态监控'
+            <Card title={t('状态监控')}
               style={{
                 alignSelf: 'flex-start',
                 marginTop: 20,
@@ -180,13 +203,13 @@ const Console = () => {
                   <Empty
                     image={<IllustrationFailure style={{ width: 150, height: 150 }} />}
                     darkModeImage={<IllustrationFailureDark style={{ width: 150, height: 150 }} />}
-                    description={'暂无状态监控'}
+                    description={t('暂无状态监控')}
                     style={{ padding: 30 }}
                   />
                 </div>
               </>
             </Card>
-            <Card title='常见问题'
+            <Card title={t('常见问题')}
               style={{
                 alignSelf: 'flex-start',
                 marginTop: 20,
@@ -209,7 +232,7 @@ const Console = () => {
                   <Empty
                     image={<IllustrationNoResult style={{ width: 150, height: 150 }} />}
                     darkModeImage={<IllustrationNoResultDark style={{ width: 150, height: 150 }} />}
-                    description={'暂无常见问题'}
+                    description={t('暂无常见问题')}
                     style={{ padding: 30 }}
                   />
                 </div>

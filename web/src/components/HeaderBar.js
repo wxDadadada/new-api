@@ -298,7 +298,7 @@ const HeaderBar = () => {
                 )}
                 {/* <Nav.Item itemKey={'about'} icon={<IconHelpCircle />} /> */}
                 {/* wxDa 2024-12-11 修改第二处 替换about的icon IconFaq */}
-                <Nav.Item itemKey={'about'}
+                {/* <Nav.Item itemKey={'about'}
                   // style={{ marginRight: '4px' }}
                   style={{
                     marginRight: '4px',
@@ -307,7 +307,7 @@ const HeaderBar = () => {
                 // onClick={() => setSelectedKey('about')}
                 >
                   <IconIssueStroked size='large' />
-                </Nav.Item>
+                </Nav.Item> */}
                 {/* wxDa 2024-12-11 修改第三处 去掉主题切换按钮 */}
                 {/* <>
                   <Switch
@@ -380,37 +380,8 @@ const HeaderBar = () => {
                     {/* <Nav.Item
                       itemKey={'login'}
                       text={!styleState.isMobile?t('登录'):null}
-                      text={'登录'}
-                    // icon={<IconKey />}
-                    />
-                    <Nav.Item
-                      itemKey={'register'}
-                      text={'注册'}
                       icon={<IconUser />}
-                    /> */}
-                    {/* wxDa 2024-12-11 修改第五处 替换登录注册按钮的icon IconSendStroked IconFollowStroked */}
-                    {/* <Button theme='solid' type='primary' size='large' onClick={change}>登录</Button> */}
-                    <Nav.Item
-                      itemKey={'login'}
-                      text={'登录'}
-                      // onClick={() => setSelectedKey('login')}
-                      style={{
-                        marginRight: '2px',
-                        // border: '1px solid #ccc', // 添加边框样式
-                      }}
-                      icon={<IconSendStroked size='large' />}
-                    // icon={<IconFollowStroked />}
                     />
-
-                    {styleState.isMobile ? null : <Nav.Item
-                      itemKey={'register'}
-                      text={'注册'}
-                      // style={{
-                      //   border: '1px solid #ccc', // 添加边框样式
-                      // }}
-                      // onClick={() => setSelectedKey('register')}
-                      icon={<IconFollowStroked size='large' />}
-                    />}
                     {
                       !styleState.isMobile && (
                         <Nav.Item
@@ -419,7 +390,31 @@ const HeaderBar = () => {
                           icon={<IconKey />}
                         />
                       )
-                    }
+                    } */}
+                    {/* wxDa 2024-12-11 修改第五处 替换登录注册按钮的icon IconSendStroked IconFollowStroked */}
+                    <Button theme='solid' type='primary' icon={<IconFollowStroked />} onClick={() => navigate('/login')}>登录</Button>
+                    {/* <Nav.Item
+                      itemKey={'login'}
+                      text={'登录'}
+                      style={{
+                        marginRight: '2px',
+                        border: '1px solid #ccc', // 添加边框样式
+                      }}
+                      icon={<IconSendStroked size='large' />}
+                    // icon={<IconFollowStroked />}
+                    />
+                    {
+                      !styleState.isMobile && (
+                        <Nav.Item
+                          itemKey={'register'}
+                          text={'注册'}
+                          style={{
+                            border: '1px solid #ccc', // 添加边框样式
+                          }}
+                          icon={<IconFollowStroked size='large' />}
+                        />
+                      )
+                    } */}
                   </>
                 )}
               </>

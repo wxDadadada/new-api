@@ -219,27 +219,19 @@ const SiderBar = () => {
   const headerButtons = useMemo(
     () => [
       {
-        text: '仪表盘',
+        text: t('仪表盘'),
         itemKey: 'console',
-        to: '/',
+        to: '/console',
         icon: <IconProgress />,
       },
       {
-        text: 'Playground',
+        text: t('Playground'),
         itemKey: 'playground',
         to: '/playground',
         icon: <IconHighlight />,
       },
       {
-        text: t('渠道'),
-        itemKey: 'channel',
-        to: '/channel',
-        icon: <IconLayers />,
-        className: isAdmin() ? 'semi-navigation-item-normal' : 'tableHiddle',
-      },
-      {
-        text: t('聊天'),
-        text: '在线聊天',
+        text: t('在线聊天'),
         itemKey: 'chat',
         items: chatItems,
         icon: <IconOverflow />,
@@ -261,7 +253,7 @@ const SiderBar = () => {
         itemKey: 'logs',
         items: [
           {
-            text: '统计图表',
+            text: t('统计图表'),
             itemKey: 'detail',
             to: '/detail',
             icon: <IconPopover />,
@@ -272,7 +264,7 @@ const SiderBar = () => {
             style: { 'marginTop': '0px' },
           },
           {
-            text: '请求日志',
+            text: t('请求日志'),
             itemKey: 'log',
             to: '/log',
             icon: <IconChangelog />,
@@ -303,32 +295,32 @@ const SiderBar = () => {
         ]
       },
       {
-        text: t('管理',
+        text: t('管理'),
         itemKey: 'management',
         items: [
           {
-            text: '渠道管理',
+            text: t('渠道管理'),
             itemKey: 'channel',
             to: '/channel',
             icon: <IconTree />,
             className: isAdmin() ? 'semi-navigation-item-normal' : 'tableHiddle',
           },
           {
-            text: '兑换卡密',
+            text: t('兑换卡密'),
             itemKey: 'redemption',
             to: '/redemption',
             icon: <IconCard />,
             className: isAdmin() ? 'semi-navigation-item-normal' : 'tableHiddle',
           },
           {
-            text: '用户管理',
+            text: t('用户管理'),
             itemKey: 'user',
             to: '/user',
             icon: <IconAvatar />,
             className: isAdmin() ? 'semi-navigation-item-normal' : 'tableHiddle',
           },
           {
-            text: '站点设置'),
+            text: t('站点设置'),
             itemKey: 'setting',
             to: '/setting',
             icon: <IconConfig />,
@@ -407,7 +399,7 @@ const SiderBar = () => {
       localKey = 'home';
     }
     setSelectedKeys([localKey]);
-    
+
     let chatLink = localStorage.getItem('chat_link');
     if (!chatLink) {
       let chats = localStorage.getItem('chats');
@@ -436,7 +428,7 @@ const SiderBar = () => {
         }
       }
     }
-    
+
     setIsCollapsed(localStorage.getItem('default_collapse_sidebar') === 'true');
   }, []);
 
