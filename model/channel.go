@@ -28,7 +28,7 @@ type Channel struct {
 	Models             string  `json:"models"`
 	Group              string  `json:"group" gorm:"type:varchar(64);default:'default'"`
 	UsedQuota          int64   `json:"used_quota" gorm:"bigint;default:0"`
-	ModelMapping       *string `json:"model_mapping" gorm:"type:varchar(1024);default:''"`
+	ModelMapping       *string `json:"model_mapping" gorm:"type:text"`
 	//MaxInputTokens     *int    `json:"max_input_tokens" gorm:"default:0"`
 	StatusCodeMapping *string `json:"status_code_mapping" gorm:"type:varchar(1024);default:''"`
 	Priority          *int64  `json:"priority" gorm:"bigint;default:0"`
@@ -114,14 +114,11 @@ func GetChannelsByTag(tag string, idSort bool) ([]*Channel, error) {
 
 func SearchChannels(keyword string, group string, model string, idSort bool) ([]*Channel, error) {
 	var channels []*Channel
-	keyCol := "`key`"
-	groupCol := "`group`"
 	modelsCol := "`models`"
 
 	// 如果是 PostgreSQL，使用双引号
 	if common.UsingPostgreSQL {
 		keyCol = `"key"`
-		groupCol = `"group"`
 		modelsCol = `"models"`
 	}
 
@@ -437,14 +434,10 @@ func GetPaginatedTags(offset int, limit int) ([]*string, error) {
 
 func SearchTags(keyword string, group string, model string, idSort bool) ([]*string, error) {
 	var tags []*string
-	keyCol := "`key`"
-	groupCol := "`group`"
 	modelsCol := "`models`"
 
 	// 如果是 PostgreSQL，使用双引号
 	if common.UsingPostgreSQL {
-		keyCol = `"key"`
-		groupCol = `"group"`
 		modelsCol = `"models"`
 	}
 

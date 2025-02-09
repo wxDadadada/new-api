@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/bytedance/gopkg/util/gopool"
 	"io"
 	"math"
 	"net/http"
@@ -24,6 +23,8 @@ import (
 	"sync"
 	"time"
 
+	"github.com/bytedance/gopkg/util/gopool"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -31,6 +32,9 @@ func testChannel(channel *model.Channel, testModel string) (err error, openAIErr
 	tik := time.Now()
 	if channel.Type == common.ChannelTypeMidjourney {
 		return errors.New("midjourney channel test is not supported"), nil
+	}
+	if channel.Type == common.ChannelTypeMidjourneyPlus {
+		return errors.New("midjourney plus channel test is not supported!!!"), nil
 	}
 	if channel.Type == common.ChannelTypeSunoAPI {
 		return errors.New("suno channel test is not supported"), nil
@@ -152,10 +156,10 @@ func buildTestRequest(model string) *dto.GeneralOpenAIRequest {
 		Model:  "", // this will be set later
 		Stream: false,
 	}
-	if strings.HasPrefix(model, "o1") {
+	if strings.HasPrefix(model, "o1") || strings.HasPrefix(model, "o3") {
 		testRequest.MaxCompletionTokens = 10
 	} else if strings.HasPrefix(model, "gemini-2.0-flash-thinking") {
-		testRequest.MaxTokens = 2
+		testRequest.MaxTokens = 10
 	} else {
 		testRequest.MaxTokens = 1
 	}

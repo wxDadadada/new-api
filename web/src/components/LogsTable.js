@@ -157,13 +157,15 @@ const LogsTable = () => {
           record.type === 0 || record.type === 2 ? (
             <div>
               {
-                <Tag
-                  color={colors[parseInt(text) % colors.length]}
-                  size='large'
-                >
-                  {' '}
-                  {text}{' '}
-                </Tag>
+                <Tooltip content={record.channel_name || '[未知]'}>
+                  <Tag
+                    color={colors[parseInt(text) % colors.length]}
+                    size='large'
+                  >
+                    {' '}
+                    {text}{' '}
+                  </Tag>
+                </Tooltip>
               }
             </div>
           ) : (
@@ -185,7 +187,10 @@ const LogsTable = () => {
               size='small'
               color={stringToColor(text)}
               style={{ marginRight: 4 }}
-              onClick={() => showUserInfo(record.user_id)}
+              onClick={(event) => {
+                event.stopPropagation();
+                showUserInfo(record.user_id)
+              }}
             >
               {typeof text === 'string' && text.slice(0, 1)}
             </Avatar>
@@ -205,8 +210,9 @@ const LogsTable = () => {
             <Tag
               color='grey'
               size='large'
-              onClick={() => {
-                copyText(text);
+              onClick={(event) => {
+                //cancel the row click event
+                copyText(event, text);
               }}
             >
               {' '}
@@ -230,7 +236,12 @@ const LogsTable = () => {
               </>
             );
          } else {
-           let other = JSON.parse(record.other);
+           let other = null;
+           try {
+             other = JSON.parse(record.other);
+           } catch (e) {
+             console.error(`Failed to parse record.other: "${record.other}".`, e);
+           }
            if (other === null) {
              return <></>;
            }
@@ -265,8 +276,8 @@ const LogsTable = () => {
             <Tag
               color={stringToColor(text)}
               size='large'
-              onClick={() => {
-                copyText(text);
+              onClick={(event) => {
+                copyText(event, text);
               }}
             >
               {' '}
@@ -518,7 +529,7 @@ const LogsTable = () => {
     let expandDatesLocal = {};
     for (let i = 0; i < logs.length; i++) {
       logs[i].timestamp2string = timestamp2string(logs[i].created_at);
-      logs[i].key = i;
+      logs[i].key = logs[i].id;
       let other = getLogOther(logs[i].other);
       let expandDataLocal = [];
       if (isAdmin()) {
@@ -539,6 +550,12 @@ const LogsTable = () => {
         //   key: '渠道重试',
         //   value: content,
         // })
+      }      
+      if (isAdminUser && (logs[i].type === 0 || logs[i].type === 2)) {
+        expandDataLocal.push({
+          key: t('渠道信息'),
+          value: `${logs[i].channel} - ${logs[i].channel_name || '[未知]'}`
+        });
       }
       if (other?.ws || other?.audio) {
         expandDataLocal.push({
@@ -591,13 +608,17 @@ const LogsTable = () => {
           key: t('计费过程'),
           value: content,
         });
+        if (other?.reasoning_effort) {
+          expandDataLocal.push({
+            key: t('Reasoning Effort'),
+            value: other.reasoning_effort,
+          });
+        }
       }
-
       expandDatesLocal[logs[i].key] = expandDataLocal;
     }
 
     setExpandData(expandDatesLocal);
-
     setLogs(logs);
   };
 
@@ -650,11 +671,12 @@ const LogsTable = () => {
     await loadLogs(activePage, pageSize, logType);
   };
 
-  const copyText = async (text) => {
+  const copyText = async (e, text) => {
+    e.stopPropagation();
     if (await copy(text)) {
       showSuccess('已复制：' + text);
     } else {
-      Modal.error({ title: '无法复制到剪贴板，请手动复制', content: text });
+      Modal.error({ title: t('无法复制到剪贴板，请手动复制'), content: text });
     }
   };
 
@@ -820,6 +842,12 @@ const LogsTable = () => {
           dataSource={logs}
           rowKey="key"
           pagination={{
+            formatPageText: (page) =>
+              t('第 {{start}} - {{end}} 条，共 {{total}} 条', {
+                start: page.currentStart,
+                end: page.currentEnd,
+                total: logCount
+              }),
             currentPage: activePage,
             pageSize: pageSize,
             total: logCount,
